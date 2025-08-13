@@ -18,8 +18,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          repository: "codeforboston/boston-liquor-license-tracker"
-          ref: "main"
+          ref: "test"
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -85,7 +84,7 @@ jobs:
           branch: update-liquor-license-data
           delete-branch: true
           commit-message: "[SCRIPT] Update liquor license applicant data"
-          committer: Github Actions <hello@codeforboston.org>
-          author: Github Actions <hello@codeforboston.org>
+          committer: Github Actions <gopalakrishnanunni.a@northeastern.edu>
+          author: Github Actions <gopalakrishnanunni.a@northeastern.edu>
           add-paths: |
             data/*.json
