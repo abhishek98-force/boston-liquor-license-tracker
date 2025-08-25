@@ -57,11 +57,11 @@ jobs:
           # Exit early if no new PDF to process
           if [ "$PDF_FILE" = "null" ] || [ "$VOTING_DATE" = "null" ]; then
             echo "No new PDF to process. Already up to date."
-            echo "pdf-found=false >> $GITHUB_OUTPUT"
+            echo "pdf-found=false" >> $GITHUB_OUTPUT
           else
-            echo "pdf-found=true >> $GITHUB_OUTPUT"
-            echo "pdf_file=$PDF_FILE" >> $GITHUB_OUTPUT
-            echo "voting_date=$VOTING_DATE" >> $GITHUB_OUTPUT
+            echo "pdf-found=true" >> $GITHUB_OUTPUT
+            echo "pdf-file=$PDF_FILE" >> $GITHUB_OUTPUT
+            echo "voting-date=$VOTING_DATE" >> $GITHUB_OUTPUT
           fi
   
   process-pdf:
@@ -83,10 +83,21 @@ jobs:
       - name: Install Python dependencies
         working-directory: ./scripts
         run: pip install -r requirements.txt
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+          cache: "npm"
+          cache-dependency-path: scripts/package-lock.json
+      
+      - name: Install dependencies
+        working-directory: ./scripts
+        run: npm ci 
 
       - name: Run python script 
         working-directory: ./scripts
-        run: python3 extract_entity.py ${{ steps.generate.outputs.pdf_file}}
+        run: python3 extract_entity.py ${{ needs.check-pdf.outputs.pdf-file }}
       
       - name: Compile update processed date 
         working-directory: ./scripts
@@ -94,7 +105,7 @@ jobs:
 
       - name: Run update processed date 
         working-directory: ./scripts 
-        run: node updateLastProcessedDate.js ${{ steps.generate.outputs.voting_date}}
+        run: node updateLastProcessedDate.js ${{ needs.check-pdf.outputs.voting-date }}
 
       - name: Create pull request to merge in new next meeting date
         uses: peter-evans/create-pull-request@v7
