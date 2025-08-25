@@ -12,7 +12,11 @@ permissions:
   pull-requests: write
 
 jobs:
-  process-pdf:
+  check-pdf:
+    outputs:
+      pdf-found: ${{ steps.check.outputs.pdf-found }}
+      pdf-file: ${{ steps.check.outputs.pdf-file }}
+      voting-date: ${{ steps.check.outputs.voting-date}}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -36,7 +40,7 @@ jobs:
         run: npx tsc -t es2022 -m nodenext --moduleResolution nodenext getVotingMinutes.ts
 
       - name: Run get voting minutes
-        id: generate
+        id: check
         working-directory: ./scripts
         run: |
           OUTPUT=$(node getVotingMinutes.js 2>&1 | tee /dev/stderr)
@@ -46,18 +50,30 @@ jobs:
             echo "Script failed : $(echo "$SEL_OUTPUT" | jq -r '.message')"
             exit 1 
           fi
+
           PDF_FILE=$(echo "$SEL_OUTPUT" | jq -r '.fileName')
           VOTING_DATE=$(echo "$SEL_OUTPUT" | jq -r '.pdfDate')
 
           # Exit early if no new PDF to process
           if [ "$PDF_FILE" = "null" ] || [ "$VOTING_DATE" = "null" ]; then
             echo "No new PDF to process. Already up to date."
-            exit 0
+            echo "pdf-found=false >> $GITHUB_OUTPUT"
+          else
+            echo "pdf-found=true >> $GITHUB_OUTPUT"
+            echo "pdf_file=$PDF_FILE" >> $GITHUB_OUTPUT
+            echo "voting_date=$VOTING_DATE" >> $GITHUB_OUTPUT
           fi
-          
-          echo "pdf_file=$PDF_FILE" >> $GITHUB_OUTPUT
-          echo "voting_date=$VOTING_DATE" >> $GITHUB_OUTPUT
- 
+  
+  process-pdf:
+    needs: check-pdf 
+    if: needs.check-pdf.outputs.pdf-found == 'true'
+    runs-on: ubuntu-latest 
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          ref: "test"
+
       - name: Setup python 
         uses: actions/setup-python@v5
         with: 
