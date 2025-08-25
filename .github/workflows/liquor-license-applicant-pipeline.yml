@@ -48,6 +48,13 @@ jobs:
           fi
           PDF_FILE=$(echo "$SEL_OUTPUT" | jq -r '.fileName')
           VOTING_DATE=$(echo "$SEL_OUTPUT" | jq -r '.pdfDate')
+
+          # Exit early if no new PDF to process
+          if [ "$PDF_FILE" = "null" ] || [ "$VOTING_DATE" = "null" ]; then
+            echo "No new PDF to process. Already up to date."
+            exit 0
+          fi
+          
           echo "pdf_file=$PDF_FILE" >> $GITHUB_OUTPUT
           echo "voting_date=$VOTING_DATE" >> $GITHUB_OUTPUT
  
