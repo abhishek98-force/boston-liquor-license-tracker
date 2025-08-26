@@ -21,6 +21,7 @@ async function main(){
   const url = 'https://www.boston.gov/departments/licensing-board/licensing-board-information-and-members'
    try{
       const pdfDate = await getLatestDate(url)
+      throw Error('hhehe im testing')
       if(!pdfDate){
         const result = {
            success: true,
@@ -32,15 +33,14 @@ async function main(){
         return
       }
       
-      const fileName = await downloadVotingMinutes(pdfDate, url)
-      const result = {
-         success : true, 
-         pdfDate: pdfDate.toISOString(),
-         fileName: fileName, 
-         message: 'Downloaded the pdf successfully'
-      }
-      console.log("::JSON_OUTPUT::"+JSON.stringify(result))
-      throw Error('hhehe im testing')
+      // const fileName = await downloadVotingMinutes(pdfDate, url)
+      // const result = {
+      //    success : true, 
+      //    pdfDate: pdfDate.toISOString(),
+      //    fileName: fileName, 
+      //    message: 'Downloaded the pdf successfully'
+      // }
+      // console.log("::JSON_OUTPUT::"+JSON.stringify(result))
 
    }catch(err){
       const errResult = {
