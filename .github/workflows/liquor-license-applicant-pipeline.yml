@@ -56,7 +56,6 @@ jobs:
 
           # Exit early if no new PDF to process
           if [ "$PDF_FILE" = "null" ] || [ "$VOTING_DATE" = "null" ]; then
-            echo "No new PDF to process. Already up to date."
             echo "pdf-found=false" >> $GITHUB_OUTPUT
           else
             echo "pdf-found=true" >> $GITHUB_OUTPUT
