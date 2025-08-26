@@ -84,8 +84,6 @@ async function downloadVotingMinutes(pdfDate : Date, url: string) : Promise<stri
           const date = new Date(`${month} ${day}, ${year}`)
           console.log(`date checked is ${date}`)
           if(date.getTime() === pdfDate.getTime()){
-             console.log(`date matched is ${date}`)
-             console.log('url matched is ',$(e).attr("href") )
             entity['href'] = $(e).attr("href") ?? null
             entity['dateText'] = $(e).text() 
             entity['votingDate'] = date.toISOString()
@@ -102,9 +100,7 @@ async function downloadVotingMinutes(pdfDate : Date, url: string) : Promise<stri
     const pdfData = await axios.get(fullUrl, {
       responseType: 'arraybuffer'
     })
-    console.log('pdf data is ', pdfData.data)
     const fileName = entity["href"].split('/').pop()
-    console.log('file name is ', fileName)
     if(fileName){
       const filePath = path.join(__dirname, fileName)
       await fs.writeFile(filePath, pdfData.data)
