@@ -31,6 +31,7 @@ async function main(){
         console.log("::JSON_OUTPUT::"+JSON.stringify(result))
         return
       }
+      
       const fileName = await downloadVotingMinutes(pdfDate, url)
       const result = {
          success : true, 
@@ -39,6 +40,7 @@ async function main(){
          message: 'Downloaded the pdf successfully'
       }
       console.log("::JSON_OUTPUT::"+JSON.stringify(result))
+      throw Error('hhehe im testing')
 
    }catch(err){
       const errResult = {
