@@ -122,12 +122,12 @@ async function downloadVotingMinutes(pdfDate : Date, url: string) : Promise<stri
       }
     }
 
-    if (typeof downloadUrl !== "string") {
+    if (typeof downloadUrlString !== "string") {
       throw new Error("downloadUrl is not a string");
     } 
 
     if (!fileName) {
-      let elems = downloadUrl.split("/")
+      let elems = downloadUrlString.split("/")
       fileName = elems.pop()
     }
     
