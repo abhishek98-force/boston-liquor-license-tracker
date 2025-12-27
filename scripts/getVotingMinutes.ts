@@ -99,16 +99,16 @@ async function downloadVotingMinutes(pdfDate : Date, url: string) : Promise<stri
       // If this happens, the meeting date exists on the site but has no PDF link yet
       throw Error("Could not find entity")
     }
-    let downloadUrl = entity['href'] as string;
-
+    const downloadUrlString = entity['href'] as string;
+    let downloadUrl = new URL(downloadUrlString, "https://www.boston.gov")
     // 1. Convert Google Drive preview link → direct download
-    const driveMatch = downloadUrl.match(/https:\/\/drive\.google\.com\/file\/d\/([^/]+)/);
+    const driveMatch = downloadUrlString.match(/https:\/\/drive\.google\.com\/file\/d\/([^/]+)/);
     if (driveMatch) {
       const fileId = driveMatch[1];
-      downloadUrl = `https://drive.google.com/uc?export=download&id=${fileId}`;
+      downloadUrl = new URL(`https://drive.google.com/uc?export=download&id=${fileId}`);
     }
 
-    const pdfData = await axios.get(downloadUrl, {
+    const pdfData = await axios.get(downloadUrl.toString(), {
       responseType: "arraybuffer",
     })
 
