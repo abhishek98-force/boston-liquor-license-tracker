@@ -90,6 +90,7 @@ async function downloadVotingMinutes(pdfDate : Date, url: string) : Promise<stri
             entity['href'] = $(e).attr("href") ?? null
             entity['dateText'] = $(e).text() 
             entity['votingDate'] = date.toISOString()
+            console.log(JSON.stringify(entity))
           }
         }
     })
