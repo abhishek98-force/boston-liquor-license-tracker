@@ -4590,3 +4590,23 @@
 2026-09-21 03:32:40,550 - INFO - Download process completed.
 2026-09-21 03:32:40,550 - INFO - Application finished successfully.
 2026-09-21 03:32:40,550 - INFO - Total runtime: 0 minutes 25.67 seconds
+2026-09-28 03:54:02,234 - INFO - Starting Licensing Board Scraper Application
+2026-09-28 03:54:02,234 - INFO - Initializing Scraper Service...
+2026-09-28 03:54:02,234 - INFO - Fetching https://www.boston.gov/departments/licensing-board/licensing-board-information-and-members...
+2026-09-28 03:54:02,321 - INFO - Parsing links...
+2026-09-28 03:54:02,323 - INFO - Extracting dates...
+2026-09-28 03:54:02,323 - INFO - Saving 0 minutes links...
+2026-09-28 03:54:02,323 - INFO - Saved data to /home/runner/work/boston-liquor-license-tracker/boston-liquor-license-tracker/scraper/scrape/data/voting_minutes_links.json
+2026-09-28 03:54:02,323 - INFO - Link stats:
+2026-09-28 03:54:02,323 - INFO - total_links: 0
+2026-09-28 03:54:02,323 - INFO - client_side_links: 0
+2026-09-28 03:54:02,323 - INFO - excluded_links: 0
+2026-09-28 03:54:02,323 - INFO - video_links: 0
+2026-09-28 03:54:02,323 - INFO - minutes_links: 0
+2026-09-28 03:54:02,324 - INFO - Stats logged to /home/runner/work/boston-liquor-license-tracker/boston-liquor-license-tracker/scraper/scrape/data/link_stats_log.csv
+2026-09-28 03:54:02,324 - INFO - Scraping completed.
+2026-09-28 03:54:02,324 - INFO - Initializing Downloader Service with download_dir: ./data/voting_minutes_pdfs
+2026-09-28 03:54:02,324 - INFO - Starting download process...
+2026-09-28 03:54:02,324 - WARNING - No links found in /home/runner/work/boston-liquor-license-tracker/boston-liquor-license-tracker/scraper/scrape/data/voting_minutes_links.json
+2026-09-28 03:54:02,324 - INFO - Application finished successfully.
+2026-09-28 03:54:02,324 - INFO - Total runtime: 0 minutes 0.09 seconds
